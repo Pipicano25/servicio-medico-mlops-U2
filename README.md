@@ -53,26 +53,33 @@ En el desarrollo del modelo de machine learning se realizó una simulación del 
 ```text
 servicio_medico_flask/
 │
-├── app.py                      # Aplicación Flask y función simulada del modelo
-├── requirements.txt            # Dependencias del proyecto
-├── Dockerfile                  # Archivo para construir la imagen Docker
-├── README.md                   # Instrucciones de uso
-├── .dockerignore               # Archivos ignorados por Docker
+├── app.py                            # Aplicación Flask y función simulada del modelo
+├── requirements.txt                  # Dependencias del proyecto
+├── Dockerfile                        # Archivo para construir la imagen Docker
+├── README.md                         # Instrucciones de uso
+├── .dockerignore                     # Archivos ignorados por Docker
 │
-├── templates/
-│   └── index.html              # Página web sencilla para ingresar datos
+├── data/
+│   └── historial_predicciones.json   # Json de predicciones almacenadas
 │
-├── static/
-│   └── style.css               # Estilos de la página web
+├── img/
+│   └── image-1.png                   # Formulario medico para realizar predicción
+│   └── image.png                     # Reporte de predicciones
 │
 ├── model/
-│   └── model.py                # Módulo de predicción clínica simulada
+│   └── model.py                      # Módulo de predicción clínica simulada
 │
-├── utils/
-│   └── convertir_valores.py    # Módulo de conversión de valores para validación y normalización de datos
+├── static/
+│   └── style.css                     # Estilos de la página web
 │
-└── tests/
-    └── test_predict.py         # Pruebas básicas de la función de predicción
+├── templates/
+│   └── index.html                    # Página web sencilla para ingresar datos
+│
+├── tests/
+│   └── test_predict.py               # Pruebas básicas de la función de predicción
+│
+└── utils/
+    └── convertir_valores.py          # Módulo de conversión de valores para validación y normalización de datos│
 ```
 
 ---
@@ -95,6 +102,7 @@ La función recibe 5 variables para hacer la simulación más real referente al 
 
 La función `predecir_estado` retorna un estado según reglas sencillas:
 
+- Retorna `ENFERMEDAD TERMINAL` si los síntomas llevan mucho tiempo o no existe persistencia clínica.
 - Retorna `ENFERMEDAD CRÓNICA` si los síntomas llevan mucho tiempo o existe persistencia clínica.
 - Retorna `ENFERMEDAD AGUDA` si hay fiebre alta, frecuencia cardiaca muy elevada o dolor intenso reciente.
 - Retorna `ENFERMEDAD LEVE` si hay síntomas moderados sin señales de severidad alta.
@@ -102,12 +110,13 @@ La función `predecir_estado` retorna un estado según reglas sencillas:
 
 Ejemplos que permiten obtener cada estado:
 
-| Estado esperado      | Edad | Temperatura | Frecuencia cardiaca | Días síntomas | Dolor |
-| -------------------- | ---: | ----------: | ------------------: | ------------: | ----: |
-| `NO ENFERMO`         |   25 |        36.5 |                  75 |             0 |     0 |
-| `ENFERMEDAD LEVE`    |   30 |        37.8 |                  90 |             2 |     3 |
-| `ENFERMEDAD AGUDA`   |   40 |        39.4 |                 125 |             4 |     8 |
-| `ENFERMEDAD CRÓNICA` |   68 |        37.0 |                  88 |            65 |     5 |
+| Estado esperado       | Edad | Temperatura | Frecuencia cardiaca | Días síntomas | Dolor |
+| --------------------- | ---: | ----------: | ------------------: | ------------: | ----: |
+| `NO ENFERMO`          |   25 |        36.5 |                  75 |             0 |     0 |
+| `ENFERMEDAD LEVE`     |   30 |        37.8 |                  90 |             2 |     3 |
+| `ENFERMEDAD AGUDA`    |   40 |        39.4 |                 125 |             4 |     8 |
+| `ENFERMEDAD CRÓNICA`  |   68 |        37.0 |                  88 |            65 |     5 |
+| `ENFERMEDAD TERMINAL` |   50 |        37.0 |                  60 |            75 |     9 |
 
 ---
 
