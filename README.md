@@ -41,6 +41,7 @@ El objetivo es que un médico pueda ingresar datos básicos de un paciente y rec
 - `ENFERMEDAD LEVE`
 - `ENFERMEDAD AGUDA`
 - `ENFERMEDAD CRÓNICA`
+- `ENFERMEDAD TERMINAL`
 
 En el desarrollo del modelo de machine learning se realizó una simulación del comportamiento del modelo se simula mediante una función llamada `predecir_estado`, ubicada en el archivo `model/model.py`.
 
@@ -53,29 +54,33 @@ En el desarrollo del modelo de machine learning se realizó una simulación del 
 ```text
 servicio_medico_flask/
 │
-├── app.py                      # Aplicación Flask y función simulada del modelo
-├── requirements.txt            # Dependencias del proyecto
-├── Dockerfile                  # Archivo para construir la imagen Docker
-├── README.md                   # Instrucciones de uso
-├── .dockerignore               # Archivos ignorados por Docker
+├── app.py                            # Aplicación Flask y función simulada del modelo
+├── requirements.txt                  # Dependencias del proyecto
+├── Dockerfile                        # Archivo para construir la imagen Docker
+├── README.md                         # Instrucciones de uso
+├── .dockerignore                     # Archivos ignorados por Docker
 │
-├── docs/
-│   └── Pipeline de MLOps.pdf   # Descripción de un Pipeline de MLOps
+├── data/
+│   └── historial_predicciones.json   # Json de predicciones almacenadas
 │
-├── templates/
-│   └── index.html              # Página web sencilla para ingresar datos
-│
-├── static/
-│   └── style.css               # Estilos de la página web
+├── img/
+│   └── image-1.png                   # Formulario medico para realizar predicción
+│   └── image.png                     # Reporte de predicciones
 │
 ├── model/
-│   └── model.py                # Módulo de predicción clínica simulada
+│   └── model.py                      # Módulo de predicción clínica simulada
 │
-├── utils/
-│   └── convertir_valores.py    # Módulo de conversión de valores para validación y normalización de datos
+├── static/
+│   └── style.css                     # Estilos de la página web
 │
-└── tests/
-    └── test_predict.py         # Pruebas básicas de la función de predicción
+├── templates/
+│   └── index.html                    # Página web sencilla para ingresar datos
+│
+├── tests/
+│   └── test_predict.py               # Pruebas básicas de la función de predicción
+│
+└── utils/
+    └── convertir_valores.py          # Módulo de conversión de valores para validación y normalización de datos│
 ```
 
 ---
@@ -98,6 +103,7 @@ La función recibe 5 variables para hacer la simulación más real referente al 
 
 La función `predecir_estado` retorna un estado según reglas sencillas:
 
+- Retorna `ENFERMEDAD TERMINAL` si los síntomas llevan mucho tiempo o no existe persistencia clínica.
 - Retorna `ENFERMEDAD CRÓNICA` si los síntomas llevan mucho tiempo o existe persistencia clínica.
 - Retorna `ENFERMEDAD AGUDA` si hay fiebre alta, frecuencia cardiaca muy elevada o dolor intenso reciente.
 - Retorna `ENFERMEDAD LEVE` si hay síntomas moderados sin señales de severidad alta.
@@ -105,12 +111,13 @@ La función `predecir_estado` retorna un estado según reglas sencillas:
 
 Ejemplos que permiten obtener cada estado:
 
-| Estado esperado      | Edad | Temperatura | Frecuencia cardiaca | Días síntomas | Dolor |
-| -------------------- | ---: | ----------: | ------------------: | ------------: | ----: |
-| `NO ENFERMO`         |   25 |        36.5 |                  75 |             0 |     0 |
-| `ENFERMEDAD LEVE`    |   30 |        37.8 |                  90 |             2 |     3 |
-| `ENFERMEDAD AGUDA`   |   40 |        39.4 |                 125 |             4 |     8 |
-| `ENFERMEDAD CRÓNICA` |   68 |        37.0 |                  88 |            65 |     5 |
+| Estado esperado       | Edad | Temperatura | Frecuencia cardiaca | Días síntomas | Dolor |
+| --------------------- | ---: | ----------: | ------------------: | ------------: | ----: |
+| `NO ENFERMO`          |   25 |        36.5 |                  75 |             0 |     0 |
+| `ENFERMEDAD LEVE`     |   30 |        37.8 |                  90 |             2 |     3 |
+| `ENFERMEDAD AGUDA`    |   40 |        39.4 |                 125 |             4 |     8 |
+| `ENFERMEDAD CRÓNICA`  |   68 |        37.0 |                  88 |            65 |     5 |
+| `ENFERMEDAD TERMINAL` |   50 |        37.0 |                  60 |            75 |     9 |
 
 ---
 
@@ -165,13 +172,23 @@ http://localhost:5000
 Desde la carpeta del proyecto:
 
 ```bash
-docker build -t servicio-medico-flask .
+docker build -t servicio-medico-mlops-u2 .
 ```
 
 ### 8.2. Ejecutar el contenedor
 
 ```bash
-docker run -p 5000:5000 servicio-medico-flask
+docker run -p 5000:5000 servicio-medico-mlops-u2
+```
+
+### 8.3. Construir la imagen y ejecutar el contenedor
+
+```bash
+docker build -t servicio-medico-mlops-u2 . && docker run -p 5000:5000 servicio-medico-mlops-u2
+```
+
+```bash
+docker build -t servicio-medico-mlops-u2 . ; docker run -p 5000:5000 servicio-medico-mlops-u2
 ```
 
 Luego abrir en el navegador:
@@ -253,6 +270,10 @@ Para ejecutarlas:
 pytest
 ```
 
+```bash
+python -m pytest
+```
+
 Estas pruebas validan que la función puede retornar los cuatro estados requeridos.
 
 ---
@@ -267,3 +288,8 @@ Estas pruebas validan que la función puede retornar los cuatro estados requerid
 | `/salud`    | GET    | Verifica que el servicio esté activo              |
 
 ---
+
+## 13. Reporte
+
+![alt text](img/image-1.png)
+![alt text](img/image.png)
