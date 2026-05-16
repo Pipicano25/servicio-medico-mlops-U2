@@ -196,5 +196,5 @@ def test_enfermedad_terminal():
     ultimo_registro = cargar_historial()[-1]
     assert ultimo_registro["estado"] == estado_esperado, (
         f"Fallo en el chequeo de estadísticas. Se esperaba '{estado_esperado}' "
-        f"en el último registro, pero se encontró '{ultimo_registro['estado']}'"
+        f"en el último registro, pero se encontró  '{ultimo_registro['estado']}'"
     )
