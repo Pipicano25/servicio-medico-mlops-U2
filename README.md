@@ -41,6 +41,7 @@ El objetivo es que un médico pueda ingresar datos básicos de un paciente y rec
 - `ENFERMEDAD LEVE`
 - `ENFERMEDAD AGUDA`
 - `ENFERMEDAD CRÓNICA`
+- `ENFERMEDAD TERMINAL`
 
 En el desarrollo del modelo de machine learning se realizó una simulación del comportamiento del modelo se simula mediante una función llamada `predecir_estado`, ubicada en el archivo `model/model.py`.
 
