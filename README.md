@@ -6,7 +6,32 @@
 |Anderson Daniel Pipicano Ruiz|
 |Fredy Yamid Alvarez Palechor |
 
-## 1. Finalidad de la solución
+## 1. Problema
+
+Actualmente, el sector salud genera grandes volúmenes de información provenientes de historias
+clínicas, registros hospitalarios, laboratorios y plataformas epidemiológicas, creando la posibilidad de
+implementar soluciones inteligentes que apoyen el diagnóstico médico y mejoren la toma de
+decisiones clínicas. En este contexto, se propone desarrollar una solución basada en Machine Learning
+y MLOps capaz de predecir la posible presencia de enfermedades comunes y huérfanas a partir de
+síntomas, antecedentes y datos clínicos de los pacientes, integrando información proveniente de
+múltiples fuentes médicas. La solución busca reducir diagnósticos tardíos o incorrectos, optimizar la
+priorización de pacientes y mejorar la asignación de recursos médicos mediante modelos predictivos
+confiables, monitoreados y capaces de adaptarse continuamente a nuevos datos y cambios
+epidemiológicos.
+
+El pipeline integra procesos de adquisición de datos, aseguramiento de calidad, ingeniería de
+características, entrenamiento de modelos, despliegue de servicios inteligentes y monitoreo continuo,
+permitiendo construir una solución escalable, reproducible y adaptable a nuevos datos clínicos.
+
+## 2. Proposito
+
+El objetivo es construir un sistema de Machine Learning capaz de predecir, a partir de síntomas y datos clínicos de un paciente, la posible presencia de enfermedades tanto comunes (muchos datos disponibles) como huérfanas (muy pocos datos disponibles).
+
+Debido a la naturaleza médica del problema, el pipeline debe considerar aspectos de calidad de datos, interpretabilidad, privacidad, actualización continua y monitoreo clínico.
+
+Reducir el riesgo clínico y mejorar la toma de decisiones médicas mediante la detección temprana y automatizada de posibles enfermedades (comunes y huérfanas) a partir de datos de síntomas y registros clínicos, optimizando recursos del sistema de salud y mejorando la precisión diagnóstica.
+
+## 3. Finalidad de la solución
 
 Este proyecto implementa una solución mediante un servicio web que simula el uso de un modelo clínico.
 
@@ -23,7 +48,7 @@ En el desarrollo del modelo de machine learning se realizó una simulación del 
 
 ---
 
-## 2. Estructura del proyecto
+## 4. Estructura del proyecto
 
 ```text
 servicio_medico_flask/
@@ -55,7 +80,7 @@ servicio_medico_flask/
 
 ---
 
-## 3. Variables de entrada
+## 5. Variables de entrada
 
 La función recibe 5 variables para hacer la simulación más real referente al diagnóstico:
 
@@ -69,7 +94,7 @@ La función recibe 5 variables para hacer la simulación más real referente al 
 
 ---
 
-## 4. Lógica simulada del modelo
+## 6. Lógica simulada del modelo
 
 La función `predecir_estado` retorna un estado según reglas sencillas:
 
@@ -89,9 +114,9 @@ Ejemplos que permiten obtener cada estado:
 
 ---
 
-## 5. Ejecutar sin Docker
+## 7. Ejecutar sin Docker
 
-### 5.1. Crear entorno virtual
+### 7.1. Crear entorno virtual
 
 En Windows PowerShell:
 
@@ -113,13 +138,13 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 5.2. Instalar dependencias
+### 7.2. Instalar dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5.3. Ejecutar la aplicación
+### 7.3. Ejecutar la aplicación
 
 ```bash
 python app.py
@@ -133,9 +158,9 @@ http://localhost:5000
 
 ---
 
-## 6. Construir y ejecutar con Docker
+## 8. Construir y ejecutar con Docker
 
-### 6.1. Construir la imagen
+### 8.1. Construir la imagen
 
 Desde la carpeta del proyecto:
 
@@ -143,7 +168,7 @@ Desde la carpeta del proyecto:
 docker build -t servicio-medico-flask .
 ```
 
-### 6.2. Ejecutar el contenedor
+### 8.2. Ejecutar el contenedor
 
 ```bash
 docker run -p 5000:5000 servicio-medico-flask
@@ -157,7 +182,7 @@ http://localhost:5000
 
 ---
 
-## 7. Usar el servicio desde la página web
+## 9. Usar el servicio desde la página web
 
 1. Abra `http://localhost:5000`.
 2. Ingrese los datos del paciente.
@@ -166,7 +191,7 @@ http://localhost:5000
 
 ---
 
-## 8. Usar el servicio desde API
+## 10. Usar el servicio desde API
 
 El servicio también expone un endpoint tipo API:
 
@@ -218,7 +243,7 @@ curl -X POST http://localhost:5000/predecir -H "Content-Type: application/json" 
 
 ---
 
-## 9. Probar que la función retorna todos los estados
+## 11. Probar que la función retorna todos los estados
 
 Se incluyen pruebas unitarias en la carpeta `tests`.
 
@@ -232,7 +257,7 @@ Estas pruebas validan que la función puede retornar los cuatro estados requerid
 
 ---
 
-## 10. Endpoints disponibles
+## 12. Endpoints disponibles
 
 | Endpoint    | Método | Descripción                                       |
 | ----------- | ------ | ------------------------------------------------- |
