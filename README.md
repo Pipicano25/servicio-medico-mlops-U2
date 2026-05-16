@@ -165,13 +165,23 @@ http://localhost:5000
 Desde la carpeta del proyecto:
 
 ```bash
-docker build -t servicio-medico-flask .
+docker build -t servicio-medico-mlops-u2 .
 ```
 
 ### 8.2. Ejecutar el contenedor
 
 ```bash
-docker run -p 5000:5000 servicio-medico-flask
+docker run -p 5000:5000 servicio-medico-mlops-u2
+```
+
+### 8.3. Construir la imagen y ejecutar el contenedor
+
+```bash
+docker build -t servicio-medico-mlops-u2 . && docker run -p 5000:5000 servicio-medico-mlops-u2
+```
+
+```bash
+docker build -t servicio-medico-mlops-u2 . ; docker run -p 5000:5000 servicio-medico-mlops-u2
 ```
 
 Luego abrir en el navegador:
@@ -253,6 +263,10 @@ Para ejecutarlas:
 pytest
 ```
 
+```bash
+python -m pytest
+```
+
 Estas pruebas validan que la función puede retornar los cuatro estados requeridos.
 
 ---
@@ -267,3 +281,8 @@ Estas pruebas validan que la función puede retornar los cuatro estados requerid
 | `/salud`    | GET    | Verifica que el servicio esté activo              |
 
 ---
+
+## 13. Reporte
+
+![alt text](img/image-1.png)
+![alt text](img/image.png)
