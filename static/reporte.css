@@ -1,0 +1,277 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 0;
+}
+
+.header {
+    background: linear-gradient(135deg, #0f766e, #0ea5e9);
+    color: white;
+    padding: 32px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 12px 30px rgba(15, 118, 110, 0.22);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.header p {
+    margin: 10px 0 0;
+    opacity: 0.95;
+}
+
+.btn-secondary,
+.btn-primary {
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.btn-secondary {
+    background: white;
+    color: #0f766e;
+    padding: 12px 18px;
+}
+
+.btn-primary {
+    background: #0f766e;
+    color: white;
+    padding: 12px 18px;
+    margin-top: 12px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.main-card {
+    border-left: 6px solid #0ea5e9;
+}
+
+.card-label {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.card h2 {
+    font-size: 48px;
+    margin: 14px 0 8px;
+    color: #0f766e;
+}
+
+.card h3 {
+    font-size: 24px;
+    margin: 18px 0 8px;
+    color: #0f172a;
+}
+
+.card p {
+    color: #64748b;
+    margin-bottom: 0;
+}
+
+.section {
+    background: white;
+    border-radius: 18px;
+    padding: 26px;
+    margin-bottom: 28px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.section h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #0f172a;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.category-card {
+    border-radius: 16px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 120px;
+    justify-content: space-between;
+}
+
+.category-card span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.category-card strong {
+    font-size: 40px;
+}
+
+.no-enfermo {
+    background: #16a34a;
+}
+
+.leve {
+    background: #ca8a04;
+}
+
+.aguda {
+    background: #dc2626;
+}
+
+.cronica {
+    background: #7c3aed;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f1f5f9;
+}
+
+th {
+    text-align: left;
+    padding: 14px;
+    font-size: 14px;
+    color: #475569;
+}
+
+td {
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+.badge {
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+}
+
+.badge-no-enfermo {
+    background: #16a34a;
+}
+
+.badge-leve {
+    background: #ca8a04;
+}
+
+.badge-aguda {
+    background: #dc2626;
+}
+
+.badge-cronica {
+    background: #7c3aed;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px dashed #cbd5e1;
+}
+
+.empty-state h3 {
+    margin-top: 0;
+    color: #0f172a;
+}
+
+.empty-state p {
+    color: #64748b;
+}
+
+.footer {
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+.terminal {
+    background: #111827;
+}
+
+.badge-terminal {
+    background: #111827;
+}
+
+@media (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 26px;
+    }
+
+    .card h2 {
+        font-size: 38px;
+    }
+}

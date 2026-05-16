@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Predicciones Médicas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='reporte.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="header">
+            <div>
+                <h1>Reporte de Predicciones Médicas</h1>
+                <p>Resumen estadístico de las predicciones realizadas por el servicio.</p>
+            </div>
+
+            <a href="/" class="btn-secondary">Nueva predicción</a>
+        </header>
+
+        <section class="summary-grid">
+
+            <div class="card main-card">
+                <span class="card-label">Total de predicciones</span>
+                <h2>{{ reporte.total_predicciones }}</h2>
+                <p>Predicciones registradas en el sistema.</p>
+            </div>
+
+            <div class="card">
+                <span class="card-label">Última predicción</span>
+
+                {% if reporte.fecha_ultima_prediccion %}
+                <h3>{{ reporte.fecha_ultima_prediccion }}</h3>
+                {% else %}
+                <h3>Sin registros</h3>
+                {% endif %}
+
+                <p>Fecha y hora del último diagnóstico simulado.</p>
+            </div>
+
+        </section>
+
+        <section class="section">
+            <h2>Predicciones por categoría</h2>
+
+            <div class="category-grid">
+
+                <div class="category-card no-enfermo">
+                    <span>NO ENFERMO</span>
+                    <strong>{{ reporte.total_por_categoria["NO ENFERMO"] }}</strong>
+                </div>
+
+                <div class="category-card leve">
+                    <span>ENFERMEDAD LEVE</span>
+                    <strong>{{ reporte.total_por_categoria["ENFERMEDAD LEVE"] }}</strong>
+                </div>
+
+                <div class="category-card aguda">
+                    <span>ENFERMEDAD AGUDA</span>
+                    <strong>{{ reporte.total_por_categoria["ENFERMEDAD AGUDA"] }}</strong>
+                </div>
+
+                <div class="category-card cronica">
+                    <span>ENFERMEDAD CRÓNICA</span>
+                    <strong>{{ reporte.total_por_categoria["ENFERMEDAD CRÓNICA"] }}</strong>
+                </div>
+
+                <div class="category-card terminal">
+                    <span>ENFERMEDAD TERMINAL</span>
+                    <strong>{{ reporte.total_por_categoria["ENFERMEDAD TERMINAL"] }}</strong>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Últimas 5 predicciones realizadas</h2>
+
+            {% if reporte.ultimas_5_predicciones %}
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Edad</th>
+                            <th>Temperatura</th>
+                            <th>Frecuencia cardíaca</th>
+                            <th>Días síntomas</th>
+                            <th>Dolor</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for prediccion in reporte.ultimas_5_predicciones %}
+                        {% set datos = prediccion.get("datos_entrada", {}) %}
+
+                        <tr>
+                            <td>{{ prediccion.get("fecha", "-") }}</td>
+
+                            <td>
+                                {% if prediccion.get("estado") == "NO ENFERMO" %}
+                                <span class="badge badge-no-enfermo">NO ENFERMO</span>
+                                {% elif prediccion.get("estado") == "ENFERMEDAD LEVE" %}
+                                <span class="badge badge-leve">ENFERMEDAD LEVE</span>
+                                {% elif prediccion.get("estado") == "ENFERMEDAD AGUDA" %}
+                                <span class="badge badge-aguda">ENFERMEDAD AGUDA</span>
+                                {% elif prediccion.get("estado") == "ENFERMEDAD CRÓNICA" %}
+                                <span class="badge badge-cronica">ENFERMEDAD CRÓNICA</span>
+                                {% elif prediccion.get("estado") == "ENFERMEDAD TERMINAL" %}
+                                <span class="badge badge-terminal">ENFERMEDAD TERMINAL</span>
+                                {% else %}
+                                <span class="badge">{{ prediccion.get("estado", "-") }}</span>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ datos.get("edad", "-") }}</td>
+                            <td>{{ datos.get("temperatura", "-") }}</td>
+                            <td>{{ datos.get("frecuencia_cardiaca", "-") }}</td>
+                            <td>{{ datos.get("dias_sintomas", "-") }}</td>
+                            <td>{{ datos.get("dolor", "-") }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+                <h3>No hay predicciones registradas</h3>
+                <p>Realiza una predicción para visualizar las estadísticas del servicio.</p>
+                <a href="/" class="btn-primary">Realizar predicción</a>
+            </div>
+
+            {% endif %}
+        </section>
+
+        <footer class="footer">
+            <p>Servicio médico predictivo desarrollado con Flask y Docker.</p>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>

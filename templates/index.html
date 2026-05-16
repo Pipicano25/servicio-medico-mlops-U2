@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Servicio Médico - Modelo Simulado</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
+
 <body>
     <main class="container">
         <section class="card">
@@ -41,20 +43,23 @@
                 </label>
 
                 <button type="submit">Obtener respuesta</button>
+                <a href="/reporte" class="btn-reporte">
+                    Ver reporte de predicciones
+                </a>
             </form>
 
             {% if resultado %}
-                <div class="result success">
-                    <strong>Estado retornado:</strong>
-                    <span>{{ resultado }}</span>
-                </div>
+            <div class="result success">
+                <strong>Estado retornado:</strong>
+                <span>{{ resultado }}</span>
+            </div>
             {% endif %}
 
             {% if error %}
-                <div class="result error">
-                    <strong>Error:</strong>
-                    <span>{{ error }}</span>
-                </div>
+            <div class="result error">
+                <strong>Error:</strong>
+                <span>{{ error }}</span>
+            </div>
             {% endif %}
 
             <p class="note">
@@ -63,4 +68,5 @@
         </section>
     </main>
 </body>
+
 </html>
