@@ -82,6 +82,13 @@ def predecir_estado(datos: Dict[str, Any]) -> str:
         or frecuencia_cardiaca >= 100
     ):
         return "ENFERMEDAD LEVE"
+    
+    if (
+        dias_sintomas >= 100
+        or (dias_sintomas >= 70 and dolor >= 8)
+        or (edad >= 45 and dias_sintomas >= 70)
+    ):
+        return " ENFERMEDAD TERMINAL"
 
     # Regla 4: sin señales clínicas relevantes según la simulación.
     return "NO ENFERMO"

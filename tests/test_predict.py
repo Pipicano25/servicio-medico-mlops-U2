@@ -127,3 +127,32 @@ def test_enfermedad_cronica():
         "dolor": 5,
     }
     assert predecir_estado(datos) == "ENFERMEDAD CRÓNICA"
+    
+    
+def test_enfermedad_terminal():
+    """
+    Prueba que valida la predicción correcta de una enfermedad terminal.
+
+    Esta función prueba el caso de un paciente de edad avanzada con una
+    enfermedad de larga duración (65 días de síntomas). A pesar de tener
+    signos vitales relativamente estables, la duración prolongada de los
+    síntomas indica una condición terminal.
+
+    Args:
+        None
+
+    Returns:
+        None: La función ejecuta una aserción que verifica que la predicción
+              sea "ENFERMEDAD terminal".
+
+    Raises:
+        AssertionError: Si la predicción no es "ENFERMEDAD TERMINAL".
+    """
+    datos = {
+        "edad": 50,
+        "temperatura": 37.0,
+        "frecuencia_cardiaca": 60,
+        "dias_sintomas": 75,
+        "dolor": 9,
+    }
+    assert predecir_estado(datos) == "ENFERMEDAD TERMINAL"
