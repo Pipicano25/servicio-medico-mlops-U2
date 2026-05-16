@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Servicio Médico - Modelo Simulado</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <main class="container">
+        <section class="card">
+            <h1>Servicio Médico con Flask</h1>
+            <p class="subtitle">
+                Ingrese los datos del paciente para obtener una respuesta simulada del modelo.
+            </p>
+
+            <form method="POST" action="/" class="form">
+                <label>
+                    Edad del paciente
+                    <input type="number" step="1" min="0" name="edad" placeholder="Ej: 45" required />
+                </label>
+
+                <label>
+                    Temperatura corporal °C
+                    <input type="number" step="0.1" min="30" name="temperatura" placeholder="Ej: 37.8" required />
+                </label>
+
+                <label>
+                    Frecuencia cardiaca
+                    <input type="number" step="1" min="1" name="frecuencia_cardiaca" placeholder="Ej: 92" required />
+                </label>
+
+                <label>
+                    Días con síntomas
+                    <input type="number" step="1" min="0" name="dias_sintomas" placeholder="Ej: 5" required />
+                </label>
+
+                <label>
+                    Dolor de 0 a 10
+                    <input type="number" step="1" min="0" max="10" name="dolor" placeholder="Ej: 4" required />
+                </label>
+
+                <button type="submit">Obtener respuesta</button>
+            </form>
+
+            {% if resultado %}
+                <div class="result success">
+                    <strong>Estado retornado:</strong>
+                    <span>{{ resultado }}</span>
+                </div>
+            {% endif %}
+
+            {% if error %}
+                <div class="result error">
+                    <strong>Error:</strong>
+                    <span>{{ error }}</span>
+                </div>
+            {% endif %}
+
+            <p class="note">
+                Este servicio es una simulación académica. No reemplaza la valoración de un profesional de salud.
+            </p>
+        </section>
+    </main>
+</body>
+</html>
