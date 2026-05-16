@@ -59,9 +59,6 @@ servicio_medico_flask/
 ├── README.md                   # Instrucciones de uso
 ├── .dockerignore               # Archivos ignorados por Docker
 │
-├── docs/
-│   └── Pipeline de MLOps.pdf   # Descripción de un Pipeline de MLOps
-│
 ├── templates/
 │   └── index.html              # Página web sencilla para ingresar datos
 │
