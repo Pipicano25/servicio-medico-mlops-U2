@@ -200,12 +200,12 @@ jobs:
       # BUILD DOCKER IMAGE
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/Pipicano25/servicio-medico-mlops-U2:latest .
+          docker build -t ghcr.io/pipicano25/servicio-medico-mlops-U2:latest .
 
       # PUBLICAR IMAGEN EN GITHUB PACKAGES
       - name: Push Docker image
         run: |
-          docker push ghcr.io/Pipicano25/servicio-medico-mlops-U2:latest
+          docker push ghcr.io/pipicano25/servicio-medico-mlops-U2:latest
 
       - name: Reporte final
         run: |
