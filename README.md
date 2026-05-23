@@ -165,9 +165,23 @@ http://localhost:5000
 
 ---
 
-## 8. Construir y ejecutar con Docker
+### 8. Consumir imagen Docker
 
-### 8.1. Construir la imagen
+El servicio también se encuentra publicado en GitHub Container Registry.
+
+Para descargar la imagen Docker, ejecuta:
+
+```bash
+docker pull ghcr.io/pipicano25/servicio-medico-mlops-u2:latest
+```
+
+```bash
+docker run -p 5000:5000 ghcr.io/pipicano25/servicio-medico-mlops-u2:latest
+```
+
+## 9. Construir y ejecutar con Docker
+
+### 9.1. Construir la imagen
 
 Desde la carpeta del proyecto:
 
@@ -175,13 +189,13 @@ Desde la carpeta del proyecto:
 docker build -t servicio-medico-mlops-u2 .
 ```
 
-### 8.2. Ejecutar el contenedor
+### 9.2. Ejecutar el contenedor
 
 ```bash
 docker run -p 5000:5000 servicio-medico-mlops-u2
 ```
 
-### 8.3. Construir la imagen y ejecutar el contenedor
+### 9.3. Construir la imagen y ejecutar el contenedor
 
 ```bash
 docker build -t servicio-medico-mlops-u2 . && docker run -p 5000:5000 servicio-medico-mlops-u2
@@ -199,7 +213,7 @@ http://localhost:5000
 
 ---
 
-## 9. Usar el servicio desde la página web
+## 10. Usar el servicio desde la página web
 
 1. Abra `http://localhost:5000`.
 2. Ingrese los datos del paciente.
@@ -208,7 +222,7 @@ http://localhost:5000
 
 ---
 
-## 10. Usar el servicio desde API
+## 11. Usar el servicio desde API
 
 El servicio también expone un endpoint tipo API:
 
@@ -260,7 +274,7 @@ curl -X POST http://localhost:5000/predecir -H "Content-Type: application/json" 
 
 ---
 
-## 11. Probar que la función retorna todos los estados
+## 12. Probar que la función retorna todos los estados
 
 Se incluyen pruebas unitarias en la carpeta `tests`.
 
@@ -278,7 +292,7 @@ Estas pruebas validan que la función puede retornar los cuatro estados requerid
 
 ---
 
-## 12. Endpoints disponibles
+## 13. Endpoints disponibles
 
 | Endpoint    | Método | Descripción                                       |
 | ----------- | ------ | ------------------------------------------------- |
@@ -289,7 +303,7 @@ Estas pruebas validan que la función puede retornar los cuatro estados requerid
 
 ---
 
-## 13. Reporte
+## 14. Reporte
 
 ![alt text](img/image-1.png)
 ![alt text](img/image.png)
