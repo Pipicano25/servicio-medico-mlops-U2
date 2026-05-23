@@ -54,7 +54,7 @@ jobs:
             const existing = await github.rest.pulls.list({
               owner,
               repo,
-              head: `${owner}:anadir-github-actions`,
+              head: `${owner}:añadir-github-actions`,
               base: "main",
               state: "open"
             });
@@ -70,8 +70,8 @@ jobs:
               const newPr = await github.rest.pulls.create({
                 owner,
                 repo,
-                title: "PR automático anadir-github-actions → main",
-                head: "anadir-github-actions",
+                title: "PR automático añadir-github-actions → main",
+                head: "añadir-github-actions",
                 base: "main",
                 body: "Creado automáticamente desde GitHub Actions"
               });
@@ -79,7 +79,7 @@ jobs:
               console.log(`PR creado: #${prNumber}`);
             }
 
-            // Guardas la variable estandarizada sin importar el origen ###############
+            // Guardas la variable estandarizada sin importar el origen
             core.setOutput("pr_number", prNumber);
 
       # COMENTARIO INICIO
@@ -105,7 +105,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: anadir-github-actions
+          ref: añadir-github-actions
 
       - uses: actions/setup-python@v5
         with:
