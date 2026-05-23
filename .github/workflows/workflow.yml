@@ -1,0 +1,213 @@
+name: CI/CD Pipeline Autochain
+
+on:
+  push:
+    branches:
+      - añadir-github-actions
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  packages: write
+
+jobs:
+  # 1. TESTS MEDICO
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Ejecutar tests
+        env:
+          PYTHONPATH: .
+        run: pytest -v
+
+  # 2. CREAR PR
+  create-pr:
+    needs: tests
+    runs-on: ubuntu-latest
+
+    outputs:
+      pr_number: ${{ steps.pr.outputs.pr_number }}
+
+    steps:
+      - name: Crear o reutilizar PR
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const existing = await github.rest.pulls.list({
+              owner,
+              repo,
+              head: `${owner}:añadir-github-actions`,
+              base: "main",
+              state: "open"
+            });
+
+            let prNumber;
+
+            if (existing.data.length > 0) {
+              // Si ya existe en la lista, se extrae directo
+              prNumber = existing.data[0].number;
+              console.log(`PR existente: #${prNumber}`);
+            } else {
+              // Si es nuevo, se extrae de la propiedad data de la creación
+              const newPr = await github.rest.pulls.create({
+                owner,
+                repo,
+                title: "PR automático añadir-github-actions → main",
+                head: "añadir-github-actions",
+                base: "main",
+                body: "Creado automáticamente desde GitHub Actions"
+              });
+              prNumber = newPr.data.number;
+              console.log(`PR creado: #${prNumber}`);
+            }
+
+            // Guardas la variable estandarizada sin importar el origen
+            core.setOutput("pr_number", prNumber);
+
+      # COMENTARIO INICIO
+      - name: Comentario inicio
+        uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.PR_NUMBER),
+              body: "CI/CD en acción. Ejecutando tareas …"
+            });
+
+  # 3. MERGE
+  merge-pr:
+    needs: create-pr
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: añadir-github-actions
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Ejecutar tests
+        env:
+          PYTHONPATH: .
+        run: pytest -v
+
+      # COMENTARIO ÉXITO
+      - name: Comentario éxito
+        if: success()
+        uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ needs.create-pr.outputs.pr_number }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.PR_NUMBER),
+              body: "CI/CD terminado con éxito."
+            });
+
+      - name: Debug PR number
+        run: echo "PR NUMBER ${{ needs.create-pr.outputs.pr_number }}"
+
+      - name: Merge PR
+        uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ needs.create-pr.outputs.pr_number }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = Number(process.env.PR_NUMBER);
+
+            if (!prNumber) {
+              core.setFailed("No se encontró PR");
+              return;
+            }
+
+            try {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                merge_method: "squash"
+              });
+            } catch (e) {
+              core.setFailed("Merge falló: " + e.message);
+            }
+
+  # 4. VALIDACIÓN FINAL EN MAIN
+  main-validation:
+    needs: merge-pr
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Ejecutar tests en main
+        env:
+          PYTHONPATH: .
+        run: pytest -v
+
+      # LOGIN EN GITHUB CONTAINER REGISTRY
+      - name: Login GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # BUILD DOCKER IMAGE
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/fredyalvarez01/medical-prediction:latest .
+
+      # PUBLICAR IMAGEN EN GITHUB PACKAGES
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/fredyalvarez01/medical-prediction:latest
+
+      - name: Reporte final
+        run: |
+          echo "## Verificación Final en Main Exitosa" >> $GITHUB_STEP_SUMMARY
+          echo "Docker image publicada en GitHub Packages" >> $GITHUB_STEP_SUMMARY

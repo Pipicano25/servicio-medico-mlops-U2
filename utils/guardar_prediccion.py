@@ -54,7 +54,12 @@ def cargar_historial():
         return []
 
     with open(RUTA_HISTORIAL, "r", encoding="utf-8") as archivo:
-        return json.load(archivo)
+        contenido = archivo.read().strip()
+
+        if not contenido:
+            return []
+
+        return json.loads(contenido)
 
 
 def guardar_historial(historial):
