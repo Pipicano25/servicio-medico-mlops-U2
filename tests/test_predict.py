@@ -11,6 +11,7 @@ el modelo de predicción clasifique segun las categorías definidas.
 
 Módulos importados:
     app: Módulo principal que contiene la función predecir_estado.
+    #### test 1: Validación de Predicción de Enfermedad Aguda
 """
 
 from app import predecir_estado
@@ -33,8 +34,9 @@ def test_no_enfermo():
               sea "NO ENFERMO".
 
     Raises:
-        AssertionError: Si la predicción no es "NO ENFERMO".
+        AssertionError: Si la predicción no es "NO ENFERMO". 78
     """
+    tamano_estadisticas = len(cargar_historial())
     datos = {
         "edad": 25,
         "temperatura": 36.5,
@@ -46,6 +48,11 @@ def test_no_enfermo():
     estado_esperado = "NO ENFERMO"
     assert estado == estado_esperado
     registrar_prediccion(estado, datos)
+    tamano_estadisticas_final = len(cargar_historial())
+    # Verificaciones finales de las estadísticas
+    assert (
+        tamano_estadisticas == tamano_estadisticas_final - 1
+    ), "El historial no aumentó en 1 registro."
     ultimo_registro = cargar_historial()[-1]
     # 6. COMPROBACIÓN FINAL: Validamos el estado y la consistencia de los datos guardados
     assert ultimo_registro["estado"] == estado_esperado, (
@@ -72,6 +79,7 @@ def test_enfermedad_leve():
     Raises:
         AssertionError: Si la predicción no es "ENFERMEDAD LEVE".
     """
+    tamano_estadisticas = len(cargar_historial())
     datos = {
         "edad": 30,
         "temperatura": 37.8,
@@ -83,6 +91,11 @@ def test_enfermedad_leve():
     estado_esperado = "ENFERMEDAD LEVE"
     assert estado == estado_esperado
     registrar_prediccion(estado, datos)
+    tamano_estadisticas_final = len(cargar_historial())
+    # Verificaciones finales de las estadísticas
+    assert (
+        tamano_estadisticas == tamano_estadisticas_final - 1
+    ), "El historial no aumentó en 1 registro."
     ultimo_registro = cargar_historial()[-1]
     assert ultimo_registro["estado"] == estado_esperado, (
         f"Fallo en el chequeo de estadísticas. Se esperaba '{estado_esperado}' "
@@ -108,6 +121,7 @@ def test_enfermedad_aguda():
     Raises:
         AssertionError: Si la predicción no es "ENFERMEDAD AGUDA".
     """
+    tamano_estadisticas = len(cargar_historial())
     datos = {
         "edad": 40,
         "temperatura": 39.4,
@@ -119,6 +133,11 @@ def test_enfermedad_aguda():
     estado_esperado = "ENFERMEDAD AGUDA"
     assert estado == estado_esperado
     registrar_prediccion(estado, datos)
+    tamano_estadisticas_final = len(cargar_historial())
+    # Verificaciones finales de las estadísticas
+    assert (
+        tamano_estadisticas == tamano_estadisticas_final - 1
+    ), "El historial no aumentó en 1 registro."
     ultimo_registro = cargar_historial()[-1]
     assert ultimo_registro["estado"] == estado_esperado, (
         f"Fallo en el chequeo de estadísticas. Se esperaba '{estado_esperado}' "
@@ -145,6 +164,7 @@ def test_enfermedad_cronica():
     Raises:
         AssertionError: Si la predicción no es "ENFERMEDAD CRÓNICA".
     """
+    tamano_estadisticas = len(cargar_historial())
     datos = {
         "edad": 68,
         "temperatura": 37.0,
@@ -156,6 +176,11 @@ def test_enfermedad_cronica():
     estado_esperado = "ENFERMEDAD CRÓNICA"
     assert estado == estado_esperado
     registrar_prediccion(estado, datos)
+    tamano_estadisticas_final = len(cargar_historial())
+    # Verificaciones finales de las estadísticas
+    assert (
+        tamano_estadisticas == tamano_estadisticas_final - 1
+    ), "El historial no aumentó en 1 registro."
     ultimo_registro = cargar_historial()[-1]
     assert ultimo_registro["estado"] == estado_esperado, (
         f"Fallo en el chequeo de estadísticas. Se esperaba '{estado_esperado}' "
@@ -182,6 +207,7 @@ def test_enfermedad_terminal():
     Raises:
         AssertionError: Si la predicción no es "ENFERMEDAD TERMINAL".
     """
+    tamano_estadisticas = len(cargar_historial())
     datos = {
         "edad": 50,
         "temperatura": 37.0,
@@ -193,8 +219,13 @@ def test_enfermedad_terminal():
     estado_esperado = "ENFERMEDAD TERMINAL"
     assert estado == estado_esperado
     registrar_prediccion(estado, datos)
+    tamano_estadisticas_final = len(cargar_historial())
+    # Verificaciones finales de las estadísticas
+    assert (
+        tamano_estadisticas == tamano_estadisticas_final - 1
+    ), "El historial no aumentó en 1 registro."
     ultimo_registro = cargar_historial()[-1]
     assert ultimo_registro["estado"] == estado_esperado, (
         f"Fallo en el chequeo de estadísticas. Se esperaba '{estado_esperado}' "
-        f"en el último registro, pero se encontró  '{ultimo_registro['estado']}'"
+        f"en el último registro, pero se encontró '{ultimo_registro['estado']}'"
     )
