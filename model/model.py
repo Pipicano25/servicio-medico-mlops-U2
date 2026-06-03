@@ -9,6 +9,7 @@ aplicación Flask con Docker.
 
 Nota:
     Este código no reemplaza la valoración médica real.
+
 """
 
 from typing import Any, Dict
