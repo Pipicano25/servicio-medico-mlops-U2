@@ -98,7 +98,7 @@ def salud():
     Returns:
         Response: JSON con el estado del servicio y el nombre del modelo.
     """
-    return jsonify({"status": "ok", "servicio": "modelo-medico-simulado"}), 200
+    return jsonify({"status": "ok!", "servicio": "modelo-medico-simulado"}), 200
 
 
 @app.route("/reporte", methods=["GET"])
